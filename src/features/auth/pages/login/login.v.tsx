@@ -11,11 +11,11 @@ export default function LoginView({
   return (
     <div className="flex items-center justify-center">
       <div
-        className="mt-6 bg-white rounded-2xl shadow-lg w-full max-w-md py-8 px-16 text-center"
+        className="mt-6 bg-white rounded-2xl shadow-lg w-full max-w-105 p-8 text-center"
         dir="rtl"
       >
-        <div className="mx-auto w-28 h-28 rounded-full bg-black flex items-center justify-center">
-          <img src={nakhtopLogo} alt="Nakhtop Logo" className="h-14 w-auto" />
+        <div className="mx-auto mb-6 w-32 h-32 rounded-full bg-black flex items-center justify-center">
+          <img src={nakhtopLogo} alt="Nakhtop Logo" className="h-16 w-auto" />
         </div>
 
         <h1 className="mt-8 text-4xl font-extrabold">ورود</h1>

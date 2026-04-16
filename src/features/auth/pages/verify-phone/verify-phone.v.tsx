@@ -22,7 +22,7 @@ export default function VerifyPhoneView({
   return (
     <div className="flex items-center justify-center">
       <div
-        className="mt-6 bg-white rounded-2xl shadow-lg w-full max-w-md py-8 px-12 text-center"
+        className="mt-6 bg-white rounded-2xl shadow-lg w-full max-w-105 py-8 px-12 text-center"
         dir="rtl"
       >
         <div className="mx-auto w-28 h-28 rounded-full bg-black flex items-center justify-center">
@@ -51,7 +51,7 @@ export default function VerifyPhoneView({
             shouldAutoFocus
           />
 
-          <div className="flex justify-between mx-11" dir="rtl">
+          <div className="flex justify-between mx-4" dir="rtl">
             {countdown > 0 ? (
               <span className="text-xs text-gray-400 mt-6 block">
                 ارسال مجدد ({formatTime(countdown)})
@@ -70,7 +70,7 @@ export default function VerifyPhoneView({
             </span>
           </div>
 
-          <div className="flex justify-stretch mt-12 gap-2 mx-10" dir="rtl">
+          <div className="flex justify-stretch mt-12 gap-2 mx-3" dir="rtl">
             <Button className="flex-1" onClick={onVerify} loading={loading}>
               تایید و ادامه
             </Button>
