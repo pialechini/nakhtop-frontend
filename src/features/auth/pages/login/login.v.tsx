@@ -68,11 +68,12 @@ export default function LoginView({
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.captcha_answer && formik.errors.captcha_answer && (
-                <p className="text-red-500 text-xs mt-1 text-right">
-                  {formik.errors.captcha_answer}
-                </p>
-              )}
+              {formik.touched.captcha_answer &&
+                formik.errors.captcha_answer && (
+                  <p className="text-red-500 text-xs mt-1 text-right">
+                    {formik.errors.captcha_answer}
+                  </p>
+                )}
             </div>
           </div>
 

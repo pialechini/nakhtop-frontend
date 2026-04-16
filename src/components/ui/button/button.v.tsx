@@ -21,7 +21,7 @@ export default function Button({
           ? 'bg-[#F4F4F4] text-black hover:bg-[#E9E9E9] border-gray-300'
           : '',
         (loading || disabled) && 'opacity-70 cursor-not-allowed',
-        className,
+        className
       )}
       {...rest}
     >

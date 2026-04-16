@@ -1,5 +1,3 @@
-import type { FormikProps } from 'formik';
-
 export const OTP_COOLDOWN = 120;
 
 export interface VerifyPhoneViewProps {

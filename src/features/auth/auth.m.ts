@@ -1,4 +1,7 @@
-export type RegistrationStatus = 'complete' | 'user_incomplete' | 'producer_incomplete';
+export type RegistrationStatus =
+  | 'complete'
+  | 'user_incomplete'
+  | 'producer_incomplete';
 
 export interface CaptchaResponse {
   key: string;

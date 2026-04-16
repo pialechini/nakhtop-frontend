@@ -29,7 +29,9 @@ axios.interceptors.response.use(
   async (error) => {
     if (!_axios.isAxiosError(error)) return Promise.reject(error);
 
-    const originalRequest = error.config as InternalAxiosRequestConfig | undefined;
+    const originalRequest = error.config as
+      | InternalAxiosRequestConfig
+      | undefined;
 
     if (
       error.response?.status === 401 &&
@@ -80,7 +82,7 @@ axios.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  },
+  }
 );
 
 export default axios;

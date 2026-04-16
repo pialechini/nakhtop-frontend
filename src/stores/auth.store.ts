@@ -1,7 +1,11 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-type RegistrationStatus = 'complete' | 'user_incomplete' | 'producer_incomplete' | null;
+type RegistrationStatus =
+  | 'complete'
+  | 'user_incomplete'
+  | 'producer_incomplete'
+  | null;
 
 interface AuthState {
   accessToken: string | null;
@@ -10,7 +14,11 @@ interface AuthState {
 }
 
 interface AuthActions {
-  setTokens: (access: string, refresh: string, status: RegistrationStatus) => void;
+  setTokens: (
+    access: string,
+    refresh: string,
+    status: RegistrationStatus
+  ) => void;
   setAccessToken: (access: string) => void;
   logout: () => void;
   isAuthenticated: () => boolean;
@@ -24,17 +32,25 @@ const useAuthStore = create(
       registrationStatus: null,
 
       setTokens: (access, refresh, status) =>
-        set({ accessToken: access, refreshToken: refresh, registrationStatus: status }),
+        set({
+          accessToken: access,
+          refreshToken: refresh,
+          registrationStatus: status,
+        }),
 
       setAccessToken: (access) => set({ accessToken: access }),
 
       logout: () =>
-        set({ accessToken: null, refreshToken: null, registrationStatus: null }),
+        set({
+          accessToken: null,
+          refreshToken: null,
+          registrationStatus: null,
+        }),
 
       isAuthenticated: () => !!get().accessToken,
     }),
-    { name: 'auth' },
-  ),
+    { name: 'auth' }
+  )
 );
 
 export default useAuthStore;
