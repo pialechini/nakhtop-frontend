@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@theme {
+    --color-background: #F1F1F1;
+    --font-sans: "Vazirmatn", ui-sans-serif, system-ui, sans-serif;
+}
+
