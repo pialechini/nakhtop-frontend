@@ -1,4 +1,5 @@
 import { cn } from '@/utils';
+import Spinner from './Spinner';
 import type { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -18,17 +19,17 @@ function Button({
     <button
       disabled={loading || disabled}
       className={cn(
-        'py-3 rounded-full text-sm transition-opacity',
+        'py-3 rounded-full text-sm transition-opacity flex items-center justify-center',
         variant === 'primary' ? 'bg-black text-white' : '',
         variant === 'secondary'
           ? 'bg-[#F4F4F4] text-black hover:bg-[#E9E9E9] border-gray-300'
           : '',
-        (loading || disabled) && 'opacity-50 cursor-not-allowed',
+        (loading || disabled) && 'opacity-70 cursor-not-allowed',
         className,
       )}
       {...rest}
     >
-      {loading ? '...' : children}
+      {loading ? <Spinner /> : children}
     </button>
   );
 }

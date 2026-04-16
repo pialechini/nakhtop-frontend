@@ -2,9 +2,11 @@ import nakhtopLogo from '@/assets/header.png';
 import Button from '@/components/ui/Button';
 import { verifyOtp } from '@/features/auth/api';
 import useAuthStore from '@/stores/authStore';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import OTPInput from 'react-otp-input';
 import { useLocation, useNavigate } from 'react-router';
+
+const OTP_COOLDOWN = 120;
 
 function VerifyPhonePage() {
   const navigate = useNavigate();
@@ -14,6 +16,13 @@ function VerifyPhonePage() {
 
   const [otpCode, setOtpCode] = useState('');
   const [loading, setLoading] = useState(false);
+  const [countdown, setCountdown] = useState(OTP_COOLDOWN);
+
+  useEffect(() => {
+    if (countdown <= 0) return;
+    const timer = setInterval(() => setCountdown((c) => c - 1), 1000);
+    return () => clearInterval(timer);
+  }, [countdown]);
 
   const handleVerify = async () => {
     if (otpCode.length < 6) return;
@@ -39,12 +48,22 @@ function VerifyPhonePage() {
     }
   };
 
+  const handleResend = useCallback(() => {
+    navigate('/login', { replace: true, state: { resend: phone } });
+  }, [navigate, phone]);
+
   if (!phone) {
     navigate('/login', { replace: true });
     return null;
   }
 
   const maskedPhone = phone.slice(0, 4) + '***' + phone.slice(7);
+
+  const formatTime = (s: number) => {
+    const min = Math.floor(s / 60);
+    const sec = s % 60;
+    return `${min}:${sec.toString().padStart(2, '0')}`;
+  };
 
   return (
     <div className="flex items-center justify-center">
@@ -79,7 +98,19 @@ function VerifyPhonePage() {
           />
 
           <div className="flex justify-between mx-11" dir="rtl">
-            <button className="text-xs text-gray-400 mt-6 block">ارسال مجدد</button>
+            {countdown > 0 ? (
+              <span className="text-xs text-gray-400 mt-6 block">
+                ارسال مجدد ({formatTime(countdown)})
+              </span>
+            ) : (
+              <button
+                onClick={handleResend}
+                className="text-xs text-purple-700 mt-6 block font-medium"
+                type="button"
+              >
+                ارسال مجدد
+              </button>
+            )}
             <span className="text-xs text-gray-400 mt-6 block" dir="ltr">
               {maskedPhone}
             </span>

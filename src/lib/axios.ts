@@ -1,6 +1,12 @@
-import _axios from 'axios';
+import _axios, { type InternalAxiosRequestConfig } from 'axios';
 import { toast } from 'react-hot-toast';
 import useAuthStore from '@/stores/authStore';
+
+declare module 'axios' {
+  interface InternalAxiosRequestConfig {
+    _retry?: boolean;
+  }
+}
 
 const axios = _axios.create({
   baseURL: '/api/',
@@ -23,7 +29,7 @@ axios.interceptors.response.use(
   async (error) => {
     if (!_axios.isAxiosError(error)) return Promise.reject(error);
 
-    const originalRequest = error.config;
+    const originalRequest = error.config as InternalAxiosRequestConfig | undefined;
 
     if (
       error.response?.status === 401 &&
@@ -49,12 +55,7 @@ axios.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const { data } = await _axios.post(
-          'http://localhost:8000/api/token/refresh/',
-          {
-            refresh,
-          }
-        );
+        const { data } = await _axios.post('/api/token/refresh/', { refresh });
         useAuthStore.getState().setAccessToken(data.access);
         originalRequest.headers.Authorization = `Bearer ${data.access}`;
 
@@ -79,7 +80,7 @@ axios.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axios;
