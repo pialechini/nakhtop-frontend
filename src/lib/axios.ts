@@ -3,7 +3,7 @@ import { toast } from 'react-hot-toast';
 import useAuthStore from '@/stores/authStore';
 
 const axios = _axios.create({
-  baseURL: 'http://localhost:8000/api/',
+  baseURL: '/api/',
   timeout: 60000,
 });
 
@@ -25,7 +25,11 @@ axios.interceptors.response.use(
 
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      originalRequest &&
+      !originalRequest._retry
+    ) {
       const refresh = useAuthStore.getState().refreshToken;
       if (!refresh) {
         useAuthStore.getState().logout();
@@ -45,9 +49,12 @@ axios.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const { data } = await _axios.post('http://localhost:8000/api/token/refresh/', {
-          refresh,
-        });
+        const { data } = await _axios.post(
+          'http://localhost:8000/api/token/refresh/',
+          {
+            refresh,
+          }
+        );
         useAuthStore.getState().setAccessToken(data.access);
         originalRequest.headers.Authorization = `Bearer ${data.access}`;
 
@@ -72,7 +79,7 @@ axios.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  },
+  }
 );
 
 export default axios;
