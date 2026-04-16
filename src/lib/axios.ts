@@ -1,101 +1,78 @@
-import _axios, { type AxiosResponse } from 'axios';
+import _axios from 'axios';
 import { toast } from 'react-hot-toast';
-
-const ErrorTypes = {
-  ERR_NETWORK: 'ERR_NETWORK',
-  ERR_CANCELED: 'ERR_CANCELED',
-  ERR_TIMEOUT: 'ECONNABORTED',
-  ERR_BAD_REQUEST: 'ERR_BAD_REQUEST',
-  ERR_FAILED: 'ERR_FAILED',
-} as const;
+import useAuthStore from '@/stores/authStore';
 
 const axios = _axios.create({
   baseURL: 'http://localhost:8000/api/',
   timeout: 60000,
 });
 
-const ResponseErrorHandler = (error: AxiosResponse) => {
-  if (error === null) return 'Unknown Error';
-  if (_axios.isAxiosError(error)) {
-    const { response, code } = error;
-    // if request had response handle error with http code else with error code
-    if (response) {
-      switch (response.status) {
-        case 400:
-          toastError(response.data.message);
-          return Promise.reject(error.response?.data.message);
-        case 401:
-          toastError(response.data.message);
-          return Promise.reject(error.response?.data.message);
-        case 402:
-          toastError(response.data.message);
-          return Promise.reject(error.response?.data.message);
-        case 403:
-          toastError(response.data.message);
-          return Promise.reject(error.response?.data.message);
-        case 404:
-          toastError(response.data.message);
-          return Promise.reject(error.response?.data.message);
-        case 405:
-          toastError(response.data.message);
-          return Promise.reject(error.response?.data.message);
-        case 422:
-          toastError(response.data.message);
-          return Promise.reject(error.response?.data.message);
-        case 429:
-          toastError(response.data.message);
-          return Promise.reject(error.response?.data.message);
-        case 500:
-          toastError(response.data.message);
-          return Promise.reject(error.response?.data.message);
+axios.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().accessToken;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+let isRefreshing = false;
+let pendingRequests: Array<(token: string) => void> = [];
+
+axios.interceptors.response.use(
+  (res) => res,
+  async (error) => {
+    if (!_axios.isAxiosError(error)) return Promise.reject(error);
+
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
+      const refresh = useAuthStore.getState().refreshToken;
+      if (!refresh) {
+        useAuthStore.getState().logout();
+        return Promise.reject(error);
       }
-    } else {
-      switch (code) {
-        case ErrorTypes.ERR_NETWORK:
-          toastNetworkErrors('خطا در ارتباط');
-          break;
-        case ErrorTypes.ERR_CANCELED:
-          toastNetworkErrors('خطا در ارتباط');
-          break;
-        case ErrorTypes.ERR_TIMEOUT:
-          toastNetworkErrors('خطا در ارتباط');
-          break;
-        case ErrorTypes.ERR_FAILED:
-          toastNetworkErrors('خطا در ارتباط');
-          break;
-        default:
-          toastNetworkErrors('خطا در ارتباط');
-          break;
+
+      if (isRefreshing) {
+        return new Promise((resolve) => {
+          pendingRequests.push((newToken) => {
+            originalRequest.headers.Authorization = `Bearer ${newToken}`;
+            resolve(axios(originalRequest));
+          });
+        });
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const { data } = await _axios.post('http://localhost:8000/api/token/refresh/', {
+          refresh,
+        });
+        useAuthStore.getState().setAccessToken(data.access);
+        originalRequest.headers.Authorization = `Bearer ${data.access}`;
+
+        pendingRequests.forEach((cb) => cb(data.access));
+        pendingRequests = [];
+        return axios(originalRequest);
+      } catch {
+        useAuthStore.getState().logout();
+        return Promise.reject(error);
+      } finally {
+        isRefreshing = false;
       }
     }
-  }
-};
-axios.interceptors.response.use(
-  (res) => Promise.resolve(res),
-  ResponseErrorHandler
+
+    if (error.response) {
+      const detail = error.response.data?.detail;
+      if (detail && typeof detail === 'string') {
+        toast.error(detail);
+      }
+    } else if (error.code) {
+      toast.error('Network error. Please try again.');
+    }
+
+    return Promise.reject(error);
+  },
 );
-const toastNetworkErrors = (message: string) => {
-  toast(message, {
-    style: {
-      borderRadius: '10px',
-      background: '#333',
-      color: '#fff',
-    },
-    position: 'top-center',
-  });
-};
-
-const toastError = (errors: string) => {
-  const splitedErrors = errors.split('\n');
-  splitedErrors.map((error) => {
-    toast.error(error);
-  });
-};
-
-const token = localStorage.get('token');
-
-if (token) {
-  axios.defaults.headers['Authorization'] = 'Bearer ' + token;
-}
 
 export default axios;

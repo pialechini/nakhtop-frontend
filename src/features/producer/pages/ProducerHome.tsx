@@ -31,14 +31,14 @@ function ProducerHome() {
         {/* Buttons */}
         <div className="space-y-3">
           <Link
-            to="/producer/login"
+            to="/login"
             className="block py-3 rounded-full border border-gray-300 text-gray-700 bg-[#F4F4F4] hover:bg-[#E9E9E9] transition"
           >
             ورود
           </Link>
 
           <Link
-            to="/producer/register"
+            to="/login"
             className="block py-3 rounded-full bg-black text-white hover:bg-gray-900 transition"
           >
             ثبت نام

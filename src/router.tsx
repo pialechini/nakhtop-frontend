@@ -1,7 +1,8 @@
 import { createBrowserRouter, redirect } from 'react-router';
-import RootLayout from '@/layout/RootLayout.tsx';
-import producerRoutes from '@/features/producer/routes.tsx';
-import authRoutes from '@/features/auth/routes.tsx';
+import RootLayout from '@/layout/RootLayout';
+import AuthGuard from '@/components/AuthGuard';
+import authRoutes from '@/features/auth/routes';
+import producerRoutes from '@/features/producer/routes';
 
 export default createBrowserRouter([
   {
@@ -10,10 +11,13 @@ export default createBrowserRouter([
     children: [
       {
         index: true,
-        loader: () => redirect('producer'),
+        loader: () => redirect('/login'),
       },
       authRoutes,
-      producerRoutes,
+      {
+        element: <AuthGuard />,
+        children: [producerRoutes],
+      },
     ],
   },
 ]);
