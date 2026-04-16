@@ -1,4 +1,4 @@
-import ProducerHome from '@/features/producer/pages/ProducerHome.tsx';
+import ProducerHome from '@/features/producer/pages/producer-home';
 
 export default {
   path: 'producer',

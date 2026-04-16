@@ -1,20 +1,16 @@
 import { cn } from '@/utils';
-import Spinner from './Spinner';
-import type { ButtonHTMLAttributes, PropsWithChildren } from 'react';
+import Spinner from '@/components/ui/spinner';
+import type { PropsWithChildren } from 'react';
+import type { ButtonProps } from './button.m';
 
-type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: 'primary' | 'secondary';
-  loading?: boolean;
-};
-
-function Button({
+export default function Button({
   children,
   className,
   variant = 'primary',
   loading = false,
   disabled,
   ...rest
-}: PropsWithChildren<Props>) {
+}: PropsWithChildren<ButtonProps>) {
   return (
     <button
       disabled={loading || disabled}
@@ -33,5 +29,3 @@ function Button({
     </button>
   );
 }
-
-export default Button;

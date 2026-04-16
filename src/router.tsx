@@ -1,7 +1,7 @@
 import { createBrowserRouter, redirect } from 'react-router';
-import RootLayout from '@/layout/RootLayout';
-import AuthGuard from '@/components/AuthGuard';
-import NotFoundPage from '@/pages/NotFoundPage';
+import { RootLayout } from '@/layout';
+import AuthGuard from '@/components/auth-guard';
+import NotFoundPage from '@/pages/not-found';
 import authRoutes from '@/features/auth/routes';
 import producerRoutes from '@/features/producer/routes';
 

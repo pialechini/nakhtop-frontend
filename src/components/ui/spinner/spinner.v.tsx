@@ -1,6 +1,7 @@
 import { cn } from '@/utils';
+import type { SpinnerProps } from './spinner.m';
 
-function Spinner({ className }: { className?: string }) {
+export default function Spinner({ className }: SpinnerProps) {
   return (
     <svg
       className={cn('animate-spin h-5 w-5', className)}
@@ -23,5 +24,3 @@ function Spinner({ className }: { className?: string }) {
     </svg>
   );
 }
-
-export default Spinner;

@@ -1,6 +1,6 @@
 import _axios, { type InternalAxiosRequestConfig } from 'axios';
 import { toast } from 'react-hot-toast';
-import useAuthStore from '@/stores/authStore';
+import useAuthStore from '@/stores/auth.store';
 
 declare module 'axios' {
   interface InternalAxiosRequestConfig {

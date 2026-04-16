@@ -1,10 +1,8 @@
-import useAuthStore from '@/stores/authStore';
+import useAuthStore from '@/stores/auth.store';
 import { Navigate, Outlet } from 'react-router';
 
-function AuthGuard() {
+export default function AuthGuard() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)();
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   return <Outlet />;
 }
-
-export default AuthGuard;

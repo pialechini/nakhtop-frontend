@@ -1,66 +1,13 @@
 import nakhtopLogo from '@/assets/header.png';
-import Button from '@/components/ui/Button';
-import TextInput from '@/components/ui/TextInput';
-import { getCaptcha, requestOtp } from '@/features/auth/api';
-import { useFormik } from 'formik';
-import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
-import { z } from 'zod';
+import Button from '@/components/ui/button';
+import TextInput from '@/components/ui/text-input';
+import type { LoginViewProps } from './login.m';
 
-const loginSchema = z.object({
-  phone: z
-    .string()
-    .min(1, 'شماره موبایل الزامی است')
-    .regex(/^0\d{10}$/, 'شماره موبایل باید ۱۱ رقم و با ۰ شروع شود'),
-  captcha_answer: z.string().min(1, 'کد کپچا الزامی است'),
-});
-
-function LoginPage() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const resendPhone: string = location.state?.resend ?? '';
-
-  const [captchaKey, setCaptchaKey] = useState('');
-  const [captchaImageUrl, setCaptchaImageUrl] = useState('');
-
-  const fetchCaptcha = async () => {
-    const { data } = await getCaptcha();
-    setCaptchaKey(data.key);
-    setCaptchaImageUrl(data.image_url);
-    formik.setFieldValue('captcha_answer', '');
-  };
-
-  useEffect(() => {
-    fetchCaptcha();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const formik = useFormik({
-    initialValues: { phone: resendPhone, captcha_answer: '' },
-    validate: (values) => {
-      const result = loginSchema.safeParse(values);
-      if (result.success) return {};
-      const errors: Record<string, string> = {};
-      for (const issue of result.error.issues) {
-        const field = issue.path[0] as string;
-        if (!errors[field]) errors[field] = issue.message;
-      }
-      return errors;
-    },
-    onSubmit: async (values) => {
-      try {
-        await requestOtp({
-          phone: values.phone,
-          captcha_key: captchaKey,
-          captcha_answer: values.captcha_answer,
-        });
-        navigate('/login/verify-phone', { state: { phone: values.phone } });
-      } catch {
-        await fetchCaptcha();
-      }
-    },
-  });
-
+export default function LoginView({
+  formik,
+  captchaImageUrl,
+  onRefreshCaptcha,
+}: LoginViewProps) {
   return (
     <div className="flex items-center justify-center">
       <div
@@ -97,7 +44,7 @@ function LoginPage() {
 
           <div className="flex mt-4 gap-4">
             <button
-              onClick={fetchCaptcha}
+              onClick={onRefreshCaptcha}
               className="min-w-[32px] shrink-0"
               type="button"
             >
@@ -143,5 +90,3 @@ function LoginPage() {
     </div>
   );
 }
-
-export default LoginPage;

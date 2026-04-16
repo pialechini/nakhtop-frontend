@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 
-function NotFoundPage() {
+export default function NotFoundPage() {
   return (
     <div className="flex items-center justify-center flex-1">
       <div className="text-center py-20">
@@ -18,5 +18,3 @@ function NotFoundPage() {
     </div>
   );
 }
-
-export default NotFoundPage;

@@ -1,21 +1,18 @@
 import nakhtopLogo from '@/assets/header.png';
 import { Link } from 'react-router';
 
-function ProducerHome() {
+export default function ProducerHome() {
   return (
     <div className="flex items-center justify-center">
       <div className="mt-6 bg-white rounded-2xl shadow-lg w-105 p-8 text-center">
-        {/* Logo */}
         <div className="mx-auto mb-6 w-32 h-32 rounded-full bg-black flex items-center justify-center">
           <img src={nakhtopLogo} alt="Nakhtop Logo" className="h-16 w-auto" />
         </div>
 
-        {/* Title */}
         <h1 className="text-4xl font-bold mb-4 tracking-wide">
           پنل تولیدکنندگان
         </h1>
 
-        {/* Description */}
         <p className="text-sm text-gray-600 leading-7 mb-6 font-bold">
           تبریک می‌گوییم!
           <br />
@@ -28,7 +25,6 @@ function ProducerHome() {
           یکی از گزینه های زیر را انتخاب کنید
         </p>
 
-        {/* Buttons */}
         <div className="space-y-3">
           <Link
             to="/login"
@@ -48,5 +44,3 @@ function ProducerHome() {
     </div>
   );
 }
-
-export default ProducerHome;

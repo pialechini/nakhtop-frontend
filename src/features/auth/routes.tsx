@@ -1,5 +1,5 @@
-import VerifyPhonePage from '@/features/auth/pages/VerifyPhonePage.tsx';
-import LoginPage from '@/features/auth/pages/LoginPage.tsx';
+import LoginPage from '@/features/auth/pages/login';
+import VerifyPhonePage from '@/features/auth/pages/verify-phone';
 
 export default {
   path: 'login',
