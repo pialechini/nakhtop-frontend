@@ -5,6 +5,15 @@ import type { ProducerRegisterViewProps } from './producer-register.m';
 export default function ProducerRegisterView({
   formik,
 }: ProducerRegisterViewProps) {
+  const renderError = (name: keyof typeof formik.values) => {
+    if (!formik.touched[name] || !formik.errors[name]) return null;
+    return (
+      <p className="text-red-500 text-xs mt-1 text-right">
+        {formik.errors[name]}
+      </p>
+    );
+  };
+
   return (
     <div className="flex items-center justify-start">
       <div
@@ -35,31 +44,40 @@ export default function ProducerRegisterView({
 
         <form onSubmit={formik.handleSubmit} className="">
           <div className="grid grid-cols-2 gap-2">
-            <TextInput
-              placeholder="نام"
-              name="first_name"
-              value={formik.values.first_name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            <TextInput
-              placeholder="نام خانوادگی"
-              name="last_name"
-              value={formik.values.last_name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
+            <div>
+              <TextInput
+                placeholder="نام"
+                name="first_name"
+                value={formik.values.first_name}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {renderError('first_name')}
+            </div>
+            <div>
+              <TextInput
+                placeholder="نام خانوادگی"
+                name="last_name"
+                value={formik.values.last_name}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {renderError('last_name')}
+            </div>
           </div>
 
-          <TextInput
-            placeholder="کد ملی"
-            name="national_code"
-            dir="ltr"
-            value={formik.values.national_code}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            maxLength={10}
-          />
+          <div>
+            <TextInput
+              placeholder="کد ملی"
+              name="national_code"
+              dir="ltr"
+              value={formik.values.national_code}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              maxLength={10}
+            />
+            {renderError('national_code')}
+          </div>
 
           <div className="grid grid-cols-3 gap-2">
             <select
@@ -104,36 +122,49 @@ export default function ProducerRegisterView({
               ))}
             </select>
           </div>
+          {renderError('birth_year') ||
+            renderError('birth_month') ||
+            renderError('birth_day')}
 
-          <TextInput
-            placeholder="ایمیل"
-            name="email"
-            dir="ltr"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
+          <div>
+            <TextInput
+              placeholder="ایمیل"
+              name="email"
+              dir="ltr"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {renderError('email')}
+          </div>
 
-          <TextInput
-            placeholder="تلفن ثابت محل سکونت"
-            name="landline_phone"
-            dir="ltr"
-            value={formik.values.landline_phone}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
+          <div>
+            <TextInput
+              placeholder="تلفن ثابت محل سکونت"
+              name="landline_phone"
+              dir="ltr"
+              value={formik.values.landline_phone}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {renderError('landline_phone')}
+          </div>
 
-          <TextInput
-            placeholder="بسته تولیدی"
-            name="parcel_code"
-            value={formik.values.parcel_code}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
+          <div>
+            <TextInput
+              placeholder="بسته تولیدی"
+              name="parcel_code"
+              value={formik.values.parcel_code}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {renderError('parcel_code')}
+          </div>
 
           <Button
             type="submit"
             className="w-full "
+            loading={formik.isSubmitting}
             disabled={!formik.isValid || !formik.dirty}
           >
             تایید و ادامه

@@ -24,3 +24,13 @@ export interface VerifyOtpResponse {
   refresh: string;
   registration_status: RegistrationStatus;
 }
+
+export interface CompleteProfilePayload {
+  first_name: string;
+  last_name: string;
+  national_id: string;
+  birthdate: string;
+  email: string;
+  emergency_phone: string;
+  job_type: 'producer';
+}

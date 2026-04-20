@@ -1,6 +1,7 @@
 import axios from '@/lib/axios';
 import type {
   CaptchaResponse,
+  CompleteProfilePayload,
   OtpRequestPayload,
   OtpVerifyPayload,
   VerifyOtpResponse,
@@ -20,4 +21,8 @@ export const verifyOtp = (data: OtpVerifyPayload) => {
 
 export const logout = (refresh: string) => {
   return axios.post('logout/', { refresh });
+};
+
+export const completeProfile = (data: CompleteProfilePayload) => {
+  return axios.put('complete-profile/', data);
 };
