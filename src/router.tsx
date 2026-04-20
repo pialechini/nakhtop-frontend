@@ -4,6 +4,7 @@ import AuthGuard from '@/components/auth-guard';
 import NotFoundPage from '@/pages/not-found';
 import authRoutes from '@/features/auth/routes';
 import producerRoutes from '@/features/producer/routes';
+import registerRoutes from '@/features/register/routes';
 
 export default createBrowserRouter([
   {
@@ -15,6 +16,7 @@ export default createBrowserRouter([
         loader: () => redirect('/login'),
       },
       authRoutes,
+      registerRoutes,
       {
         element: <AuthGuard />,
         children: [producerRoutes],
