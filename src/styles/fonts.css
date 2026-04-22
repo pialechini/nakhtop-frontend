@@ -3,3 +3,18 @@
     src: url("/fonts/Vazirmatn-VariableFont_wght.ttf") format("truetype");
     font-weight: 400;
 }
+
+@font-face {
+    font-family: 'IRANYekanXVF';
+    src: url('/fonts/IRANYekanXVF.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MorabbaVF';
+    src: url('/fonts/MorabbaVF.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
