@@ -1,20 +1,48 @@
 import { cn } from '@/utils';
-import type { TextInputProps } from './text-input.m';
+import type { InputGroupProps, TextInputProps } from './text-input.m';
+import { Children } from 'react';
 
-export default function TextInput({
+export function TextInput({
   className,
+  icon,
+  containerClassName,
   ...otherProps
 }: TextInputProps) {
   return (
-    <input
-      type="text"
+    <div className={cn('relative p-4', containerClassName)}>
+      {icon && <img src={icon} className="absolute" />}
+
+      <input
+        type="text"
+        className={cn(
+          'w-full placeholder:text-md text-right',
+          'placeholder:text-right focus:outline-none',
+          icon && 'pr-8',
+          className
+        )}
+        {...otherProps}
+      />
+    </div>
+  );
+}
+
+export function InputGroup({ children, className, ...rest }: InputGroupProps) {
+  return (
+    <div
       className={cn(
-        'w-full bg-gray-100 rounded-xl py-3 px-4 placeholder:text-sm',
-        'placeholder:text-right text-left border border-gray-300 focus:outline-none',
-        'focus:ring-2 focus:ring-black',
+        'bg-background border rounded-2xl border-border',
         className
       )}
-      {...otherProps}
-    />
+      {...rest}
+    >
+      {Children.toArray(children).map((child, index) => (
+        <div
+          key={index}
+          className={cn(index !== 0 && 'border-t border-border')}
+        >
+          {child}
+        </div>
+      ))}
+    </div>
   );
 }

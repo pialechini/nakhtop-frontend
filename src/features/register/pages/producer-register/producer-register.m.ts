@@ -24,9 +24,26 @@ export const producerRegisterSchema = z.object({
     .string()
     .min(1, 'کد ملی الزامی است')
     .regex(/^\d{10}$/, 'کد ملی باید ۱۰ رقم باشد'),
-  birth_day: z.string().min(1, 'روز تولد الزامی است'),
-  birth_month: z.string().min(1, 'ماه تولد الزامی است'),
-  birth_year: z.string().min(1, 'سال تولد الزامی است'),
+  birth_day: z
+    .string()
+    .min(1, 'روز تولد الزامی است')
+    .regex(/^\d+$/, 'روز تولد باید عدد باشد')
+    .refine((value) => {
+      const day = Number(value);
+      return day >= 1 && day <= 31;
+    }, 'روز تولد باید بین ۱ تا ۳۱ باشد'),
+  birth_month: z
+    .string()
+    .min(1, 'ماه تولد الزامی است')
+    .regex(/^\d+$/, 'ماه تولد باید عدد باشد')
+    .refine((value) => {
+      const month = Number(value);
+      return month >= 1 && month <= 12;
+    }, 'ماه تولد باید بین ۱ تا ۱۲ باشد'),
+  birth_year: z
+    .string()
+    .min(1, 'سال تولد الزامی است')
+    .regex(/^\d{4}$/, 'سال تولد باید ۴ رقم باشد'),
   email: z.string().min(1, 'ایمیل الزامی است').email('فرمت ایمیل معتبر نیست'),
   landline_phone: z
     .string()

@@ -1,6 +1,6 @@
 import nakhtopLogo from '@/assets/header.png';
 import Button from '@/components/ui/button';
-import TextInput from '@/components/ui/text-input';
+import { InputGroup, TextInput } from '@/components/ui/text-input';
 import type { LoginViewProps } from './login.m';
 
 export default function LoginView({
@@ -25,7 +25,7 @@ export default function LoginView({
         </p>
 
         <form onSubmit={formik.handleSubmit}>
-          <div className="mt-8">
+          <InputGroup className="mt-8">
             <TextInput
               placeholder="موبایل"
               dir="ltr"
@@ -35,12 +35,7 @@ export default function LoginView({
               onBlur={formik.handleBlur}
               maxLength={11}
             />
-            {formik.touched.phone && formik.errors.phone && (
-              <p className="text-red-500 text-xs mt-1 text-right">
-                {formik.errors.phone}
-              </p>
-            )}
-          </div>
+          </InputGroup>
 
           <div className="flex mt-4 gap-4">
             <button
@@ -59,7 +54,7 @@ export default function LoginView({
               )}
             </button>
 
-            <div className="flex-1">
+            <InputGroup>
               <TextInput
                 dir="ltr"
                 placeholder="کد را وارد کنید"
@@ -68,13 +63,7 @@ export default function LoginView({
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.captcha_answer &&
-                formik.errors.captcha_answer && (
-                  <p className="text-red-500 text-xs mt-1 text-right">
-                    {formik.errors.captcha_answer}
-                  </p>
-                )}
-            </div>
+            </InputGroup>
           </div>
 
           <div className="flex justify-stretch mt-4 gap-2">
