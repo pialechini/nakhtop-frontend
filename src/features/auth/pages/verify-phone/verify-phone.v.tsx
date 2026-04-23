@@ -9,6 +9,24 @@ function formatTime(s: number) {
   return `${min}:${sec.toString().padStart(2, '0')}`;
 }
 
+type FormValues = {
+  otpCode: string;
+};
+
+const container = {
+  hidden: { opacity: 0, scale: 0.98 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0 },
+};
+
 export default function VerifyPhoneView({
   otpCode,
   onOtpChange,

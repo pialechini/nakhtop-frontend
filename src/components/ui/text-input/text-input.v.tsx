@@ -1,30 +1,28 @@
 import { cn } from '@/utils';
 import type { InputGroupProps, TextInputProps } from './text-input.m';
-import { Children } from 'react';
+import { Children, forwardRef } from 'react';
 
-export function TextInput({
-  className,
-  icon,
-  containerClassName,
-  ...otherProps
-}: TextInputProps) {
-  return (
-    <div className={cn('relative p-4', containerClassName)}>
-      {icon && <img src={icon} className="absolute" />}
+export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
+  ({ className, icon, containerClassName, ...props }, ref) => {
+    return (
+      <div className={cn('relative p-4', containerClassName)}>
+        {icon && <img src={icon} className="absolute" />}
 
-      <input
-        type="text"
-        className={cn(
-          'w-full placeholder:text-md text-right',
-          'placeholder:text-right focus:outline-none',
-          icon && 'pr-8',
-          className
-        )}
-        {...otherProps}
-      />
-    </div>
-  );
-}
+        <input
+          ref={ref}
+          type="text"
+          className={cn(
+            'w-full placeholder:text-md text-right',
+            'placeholder:text-right focus:outline-none',
+            icon && 'pr-8',
+            className
+          )}
+          {...props}
+        />
+      </div>
+    );
+  }
+);
 
 export function InputGroup({ children, className, ...rest }: InputGroupProps) {
   return (
@@ -46,3 +44,5 @@ export function InputGroup({ children, className, ...rest }: InputGroupProps) {
     </div>
   );
 }
+
+TextInput.displayName = 'TextInput';

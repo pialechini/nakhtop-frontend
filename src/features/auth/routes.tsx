@@ -1,4 +1,4 @@
-import LoginPage from '@/features/auth/pages/login';
+import { LoginPage } from '@/features/auth/pages/login';
 import VerifyPhonePage from '@/features/auth/pages/verify-phone';
 
 export default {

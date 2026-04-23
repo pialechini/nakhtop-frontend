@@ -1,1 +1,1 @@
-export { default } from './login.vm';
+export * from './login';

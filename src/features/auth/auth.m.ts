@@ -14,6 +14,11 @@ export interface OtpRequestPayload {
   captcha_answer: string;
 }
 
+export interface ApiErrorResponse {
+  // field-level validation errors
+  captcha_answer?: string;
+}
+
 export interface OtpVerifyPayload {
   phone: string;
   code: string;
