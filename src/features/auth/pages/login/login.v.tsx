@@ -119,15 +119,14 @@ export function LoginView({
               whileTap={{ rotate: 10, scale: 0.95 }}
               className="min-w-[32px] shrink-0"
             >
-              {captcha.imageUrl ? (
-                <motion.img
-                  key={captcha.imageUrl}
+              {captcha.image ? (
+                <motion.div
+                  key={captcha.image}
                   initial={{ opacity: 0, rotate: -5 }}
                   animate={{ opacity: 1, rotate: 0 }}
                   transition={{ duration: 0.3 }}
-                  src={captcha.imageUrl}
-                  alt="captcha"
-                  className="h-12 object-contain rounded"
+                  className="h-12 flex items-center"
+                  dangerouslySetInnerHTML={{ __html: captcha.image }}
                 />
               ) : (
                 <div className="h-12 w-24 bg-gray-100 rounded animate-pulse" />

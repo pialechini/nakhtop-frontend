@@ -4,7 +4,6 @@ import { requestOtp } from '@/features/auth/auth.s';
 import { useCaptcha } from './use-captcha';
 import type { LoginFormValues } from '../pages/login/login.m';
 import type { AxiosError } from 'axios';
-import type { ApiErrorResponse } from '../auth.m';
 
 export function useLogin() {
   const navigate = useNavigate();
@@ -34,7 +33,7 @@ export function useLogin() {
         state: { phone: data.phone },
       });
     } catch (err) {
-      const error = err as AxiosError<ApiErrorResponse>;
+      const error = err as AxiosError;
 
       const message =
         error.response?.data?.captcha_answer ||

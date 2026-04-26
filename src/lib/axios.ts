@@ -9,7 +9,7 @@ declare module 'axios' {
 }
 
 const axios = _axios.create({
-  baseURL: '/api/',
+  baseURL: '/api/v1/',
   timeout: 60000,
 });
 

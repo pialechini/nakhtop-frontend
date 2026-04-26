@@ -5,7 +5,7 @@ export interface LoginViewProps {
 
   captcha: {
     key: string;
-    imageUrl: string;
+    image: string;
     loading: boolean;
   };
 

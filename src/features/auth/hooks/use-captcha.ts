@@ -4,7 +4,7 @@ import { getCaptcha } from '@/features/auth/auth.s';
 export function useCaptcha() {
   const [captcha, setCaptcha] = useState({
     key: '',
-    imageUrl: '',
+    image: '',
     loading: true,
   });
 
@@ -20,8 +20,8 @@ export function useCaptcha() {
       const { data } = await getCaptcha();
 
       setCaptcha({
-        key: data.key,
-        imageUrl: data.image_url,
+        key: data.data.key,
+        image: data.data.image,
         loading: false,
       });
     } finally {

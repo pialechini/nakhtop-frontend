@@ -1,22 +1,19 @@
+import type { ApiSuccessResponse } from '@/types/api.types';
+
 export type RegistrationStatus =
   | 'complete'
   | 'user_incomplete'
   | 'producer_incomplete';
 
-export interface CaptchaResponse {
+export type CaptchaResponse = ApiSuccessResponse<{
   key: string;
-  image_url: string;
-}
+  image: string;
+}>;
 
 export interface OtpRequestPayload {
   phone: string;
   captcha_key: string;
   captcha_answer: string;
-}
-
-export interface ApiErrorResponse {
-  // field-level validation errors
-  captcha_answer?: string;
 }
 
 export interface OtpVerifyPayload {
