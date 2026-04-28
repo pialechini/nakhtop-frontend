@@ -1,1 +1,1 @@
-export { default } from './verify-phone.vm';
+export { default } from './verify-phone';

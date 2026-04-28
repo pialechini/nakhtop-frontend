@@ -6,6 +6,7 @@ import type {
   OtpVerifyPayload,
   VerifyOtpResponse,
 } from './auth.m';
+import type { ApiSuccessResponse } from '@/types/api.types';
 
 export const getCaptcha = () => {
   return axios.get<CaptchaResponse>('captcha/');
@@ -16,7 +17,7 @@ export const requestOtp = (data: OtpRequestPayload) => {
 };
 
 export const verifyOtp = (data: OtpVerifyPayload) => {
-  return axios.post<VerifyOtpResponse>('otp/verify/', data);
+  return axios.post<ApiSuccessResponse<VerifyOtpResponse>>('otp/verify/', data);
 };
 
 export const logout = (refresh: string) => {
@@ -24,5 +25,5 @@ export const logout = (refresh: string) => {
 };
 
 export const completeProfile = (data: CompleteProfilePayload) => {
-  return axios.put('complete-profile/', data);
+  return axios.put('users/complete-profile/', data);
 };

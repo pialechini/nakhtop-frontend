@@ -25,10 +25,12 @@ function useVerifyPhoneViewModel() {
     if (otpCode.length < 6) return;
     setLoading(true);
     try {
-      const { data } = await verifyOtp({ phone, code: otpCode });
-      setTokens(data.access, data.refresh, data.registration_status);
+      const {
+        data: { data: result },
+      } = await verifyOtp({ phone, code: otpCode });
+      setTokens(result.access, result.refresh, result.registration_status);
 
-      switch (data.registration_status) {
+      switch (result.registration_status) {
         case 'user_incomplete':
           navigate('/register', { replace: true });
           break;
