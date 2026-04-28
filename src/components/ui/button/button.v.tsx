@@ -3,7 +3,6 @@ import Spinner from '@/components/ui/spinner';
 import type { PropsWithChildren } from 'react';
 import type { ButtonProps } from './button.m';
 
-
 export default function Button({
   children,
   className,
