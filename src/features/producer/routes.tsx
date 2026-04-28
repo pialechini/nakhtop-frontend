@@ -1,4 +1,4 @@
-import ProducerHome from '@/features/producer/pages/producer-home';
+import ProducerHome from '@/features/producer/pages/producer';
 
 export default {
   path: 'producer',
