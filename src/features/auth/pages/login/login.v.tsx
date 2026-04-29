@@ -117,7 +117,7 @@ export function LoginView({
               type="button"
               onClick={fetchCaptcha}
               whileTap={{ rotate: 10, scale: 0.95 }}
-              className="min-w-[32px] shrink-0"
+              className="min-w-8 shrink-0"
             >
               {captcha.image ? (
                 <motion.div

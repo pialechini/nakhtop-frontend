@@ -4,6 +4,8 @@ import { requestOtp } from '@/features/auth/auth.s';
 import { useCaptcha } from './use-captcha';
 import type { LoginFormValues } from '../pages/login/login.m';
 import type { AxiosError } from 'axios';
+import toast from 'react-hot-toast';
+import { PERSIAN_ERRORS } from '@/constants/errors';
 
 export function useLogin() {
   const navigate = useNavigate();
@@ -35,11 +37,11 @@ export function useLogin() {
     } catch (err) {
       const error = err as AxiosError;
 
-      const message =
-        error.response?.data?.captcha_answer ||
-        'خطا در ارسال کد. دوباره تلاش کنید.';
-
-      setServerError(message);
+      if (error.code === 'ERR_BAD_REQUEST') {
+        toast.error('کپچا نامعتبر است.');
+      } else {
+        toast.error(PERSIAN_ERRORS.DEFAULT);
+      }
 
       await fetchCaptcha(); // refresh captcha on failure
     }

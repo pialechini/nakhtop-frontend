@@ -1,6 +1,7 @@
 import _axios, { type InternalAxiosRequestConfig } from 'axios';
 import { toast } from 'react-hot-toast';
 import useAuthStore from '@/stores/auth.store';
+import { PERSIAN_ERRORS } from '@/constants/errors'; // Import constants
 
 declare module 'axios' {
   interface InternalAxiosRequestConfig {
@@ -29,15 +30,14 @@ axios.interceptors.response.use(
   async (error) => {
     if (!_axios.isAxiosError(error)) return Promise.reject(error);
 
+    const status = error.response?.status;
+
     const originalRequest = error.config as
       | InternalAxiosRequestConfig
       | undefined;
 
-    if (
-      error.response?.status === 401 &&
-      originalRequest &&
-      !originalRequest._retry
-    ) {
+    // --- Authentication Refresh Logic ---
+    if (status === 401 && originalRequest && !originalRequest._retry) {
       const refresh = useAuthStore.getState().refreshToken;
       if (!refresh) {
         useAuthStore.getState().logout();
@@ -60,7 +60,6 @@ axios.interceptors.response.use(
         const { data } = await _axios.post('/api/token/refresh/', { refresh });
         useAuthStore.getState().setAccessToken(data.access);
         originalRequest.headers.Authorization = `Bearer ${data.access}`;
-
         pendingRequests.forEach((cb) => cb(data.access));
         pendingRequests = [];
         return axios(originalRequest);
@@ -72,13 +71,17 @@ axios.interceptors.response.use(
       }
     }
 
-    if (error.response) {
-      const detail = error.response.data?.detail;
-      if (detail && typeof detail === 'string') {
-        toast.error(detail);
-      }
-    } else if (error.code) {
-      toast.error('Network error. Please try again.');
+    // --- Global Api Error Toast Logic ---
+    // Only show global toast for 5xx errors (Server Crashes)
+    // 4xx errors are treated as "Client/Validation" errors and
+    // are expected to be handled by the specific component/page.
+
+    if (status && status >= 500) {
+      toast.error(
+        error.response?.data.error ||
+          PERSIAN_ERRORS[status] ||
+          PERSIAN_ERRORS.DEFAULT
+      );
     }
 
     return Promise.reject(error);
