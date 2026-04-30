@@ -5,6 +5,7 @@ import profileIcon from '@/assets/svgs/profile.svg';
 import scanIcon from '@/assets/svgs/scan.svg';
 import messageIcon from '@/assets/svgs/message.svg';
 import categoryIcon from '@/assets/svgs/category.svg';
+import { CustomSelect } from '@/components/ui/select/select.v';
 
 export default function ProducerRegisterView({
   formik,
@@ -153,13 +154,35 @@ export default function ProducerRegisterView({
           </InputGroup>
 
           <InputGroup className="mt-4">
-            <TextInput
-              placeholder="رسته تولیدی"
+            <CustomSelect
+              placeholder="دسته تولیدی"
+              disabled={false}
               name="parcel_code"
               value={formik.values.parcel_code}
-              onChange={formik.handleChange}
+              onChange={(value) => {
+                // Handle both string and event
+                if (typeof value === 'string') {
+                  formik.setFieldValue('parcel_code', value);
+                }
+              }}
               onBlur={formik.handleBlur}
               icon={categoryIcon}
+              options={[
+                { label: 'تولیدی پوشاک', value: 'تولیدی پوشاک' },
+                {
+                  label: 'تولیدی تجهیزات صنعتی',
+                  value: 'تولیدی تجهیزات صنعتی',
+                },
+                { label: 'تولیدی نساجی', value: 'تولیدی نساجی' },
+                {
+                  label: 'تولیدی خدماتی (برش، دوخت)',
+                  value: 'تولیدی خدماتی (برش، دوخت)',
+                },
+                {
+                  label: 'خیاطی و تعمیرات لباس شخصی',
+                  value: 'خیاطی و تعمیرات لباس شخصی',
+                },
+              ]}
             />
           </InputGroup>
 

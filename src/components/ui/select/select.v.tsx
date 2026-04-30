@@ -94,6 +94,7 @@ export const CustomSelect = forwardRef<HTMLDivElement, CustomSelectProps>(
     useEffect(() => {
       // Find selected option label
       const selectedOption = options.find((opt) => opt.value === value);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSelectedLabel(selectedOption?.label || '');
     }, [value, options]);
 
@@ -107,7 +108,7 @@ export const CustomSelect = forwardRef<HTMLDivElement, CustomSelectProps>(
           setIsOpen(false);
           if (onBlur) {
             const blurEvent = new FocusEvent('blur');
-            onBlur(blurEvent as any);
+            onBlur(blurEvent as unknown as React.FocusEvent<HTMLDivElement>);
           }
         }
       };
