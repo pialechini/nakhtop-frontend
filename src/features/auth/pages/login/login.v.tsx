@@ -3,12 +3,13 @@ import Button from '@/components/ui/button';
 import { InputGroup, TextInput } from '@/components/ui/text-input';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import {
   loginSchema,
   type LoginFormValues,
   type LoginViewProps,
 } from './login.m';
+import messageIcon from '@/assets/svgs/message.svg';
 
 const container = {
   hidden: { opacity: 0, scale: 0.98 },
@@ -48,12 +49,12 @@ export function LoginView({
     .filter(Boolean);
 
   return (
-    <div className="flex items-start justify-center min-h-screen">
+    <div className="flex mt-12 justify-center px-4">
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
-        className="mt-6 bg-white rounded-2xl shadow-xl w-full max-w-105 p-8 text-center"
+        className="bg-white rounded-2xl shadow-xl w-full max-w-141.5 p-16 md:px-20 text-center"
         dir="rtl"
       >
         {/* LOGO */}
@@ -64,11 +65,17 @@ export function LoginView({
           <img src={nakhtopLogo} alt="Nakhtop Logo" className="h-16 w-auto" />
         </motion.div>
 
-        <motion.h1 variants={item} className="mt-8 text-4xl font-extrabold">
+        <motion.h1
+          variants={item}
+          className="mt-8 text-6xl font-bold font-morabba"
+        >
           ورود
         </motion.h1>
 
-        <motion.p variants={item} className="text-sm text-gray-600 mt-4">
+        <motion.p
+          variants={item}
+          className="text-lg text-gray-600 mt-4 font-iran"
+        >
           لطفاً شماره تماس خود را وارد کنید
         </motion.p>
 
@@ -94,6 +101,7 @@ export function LoginView({
               placeholder="موبایل"
               dir="ltr"
               maxLength={11}
+              icon={messageIcon}
               {...register('phone')}
             />
           </InputGroup>
